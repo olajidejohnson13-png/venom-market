@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VENOM MARKET</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #080808;
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.95);
+    border-bottom: 1px solid #333;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #ffd400;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+nav button {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+}
+
+nav button:hover {
+    color: #ffd400;
+}
+
+.hero {
+    min-height: 500px;
+    padding: 40px 20px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.75)),
+        url("background.png") center/cover no-repeat;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.yellow {
+    color: #ffd400;
+}
+
+.hero p {
+    color: #ddd;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.section {
+    max-width: 1000px;
+    margin: auto;
+    padding: 35px 18px;
+}
+
+.card {
+    background: #121212;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.account-image {
+    width: 100%;
+    max-height: 650px;
+    object-fit: contain;
+    display: block;
+    background: #000;
+    border-radius: 10px;
+}
+
+.account-info {
+    padding: 18px 5px 5px;
+}
+
+.account-info h2 {
+    margin-bottom: 10px;
+}
+
+.muted {
+    color: #aaa;
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.price {
+    color: #ffd400;
+    font-size: 27px;
+    font-weight: bold;
+    margin: 18px 0;
+}
+
+.btn {
+    background: #ffd400;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.85;
+}
+
+.full {
+    width: 100%;
+}
+
+.panel {
+    max-width: 520px;
+    margin: auto;
+    background: #121212;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 22px;
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 13px;
+    margin: 7px 0;
+    background: #1b1b1b;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 8px;
+    outline: none;
+}
+
+.textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.notice {
+    background: #191919;
+    border-left: 4px solid #ffd400;
+    padding: 14px;
+    margin: 15px 0;
+    color: #ccc;
+    line-height: 1.5;
+}
+
+.status {
+    background: #191919;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 10px 0;
+}
+
+.empty {
+    text-align: center;
+    padding: 45px 20px;
+    background: #121212;
+    border: 1px solid #333;
+    border-radius: 14px;
+}
+
+.whatsapp {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #ffd400;
+    text-decoration: none;
+}
+
+footer {
+    text-align: center;
+    color: #777;
+    border-top: 1px solid #333;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.music {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    z-index: 200;
+}
+
+.music button {
+    background: #ffd400;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    header {
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .hero h1 {
+        font-size: 31px;
+    }
+
+    nav button {
+        font-size: 11px;
+        padding: 5px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">VENOM MARKET</div>
+
+    <nav>
+        <button onclick="showHome()">Home</button>
+        <button onclick="showMarket()">Market</button>
+        <button onclick="showSell()">Sell</button>
+        <button onclick="showOrders()">Orders</button>
+    </nav>
+
+</header>
+
+<main id="app"></main>
+
+<div class="music">
+    <button onclick="toggleMusic()">🎵 Music</button>
+
+    <audio id="music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<footer>
+    © 2026 VENOM MARKET
+</footer>
+
+<script>
+
+/* =========================
+   LISTING
+========================= */
+
+var listing = {
+    id: "VENOM-001",
+    title: "PVP FREE FIRE ACCOUNT",
+    price: 500000,
+    phone: "+2349069570477",
+    image: "account.jpg",
+    description: "PVP account with the features shown in the listing images."
+};
+
+
+/* =========================
+   ORDERS
+========================= */
+
+var orders = [];
+
+try {
+    orders = JSON.parse(
+        localStorage.getItem("venomOrders") || "[]"
+    );
+} catch (error) {
+    orders = [];
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+function showHome() {
+
+    document.getElementById("app").innerHTML = `
+
+        <section class="hero">
+
+            <h1>
+                WELCOME TO
+                <span class="yellow">VENOM MARKET</span>
+            </h1>
+
+            <p>
+                Buy and sell eligible digital accounts through VENOM MARKET.
+            </p>
+
+            <button class="btn" onclick="showMarket()">
+                VIEW MARKETPLACE
+            </button>
+
+        </section>
+
+        <section class="section">
+
+            <div class="card">
+
+                <img
+                    src="${listing.image}"
+                    class="account-image"
+                    alt="Account">
+
+                <div class="account-info">
+
+                    <h2>${listing.title}</h2>
+
+                    <p class="muted">
+                        Listing ID: ${listing.id}
+                    </p>
+
+                    <div class="price">
+                        ₦${listing.price.toLocaleString()}
+                    </div>
+
+                    <button
+                        class="btn full"
+                        onclick="showListing()">
+
+                        VIEW ACCOUNT
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+    `;
+}
+
+
+/* =========================
+   MARKET
+========================= */
+
+function showMarket() {
+
+    document.getElementById("app").innerHTML = `
+
+        <section class="section">
+
+            <h2>🛒 Marketplace</h2>
+
+            <br>
+
+            <div class="card">
+
+                <img
+                    src="${listing.image}"
+                    class="account-image"
+                    alt="Account">
+
+                <div class="account-info">
+
+                    <h2>${listing.title}</h2>
+
+                    <p class="muted">
+                        ${listing.description}
+                    </p>
+
+                    <div class="price">
+                        ₦${listing.price.toLocaleString()}
+                    </div>
+
+                    <button
+                        class="btn full"
+                        onclick="showListing()">
+
+                        VIEW DETAILS
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+    `;
+}
+
+
+/* =========================
+   LISTING DETAILS
+========================= */
+
+function showListing() {
+
+    document.getElementById("app").innerHTML = `
+
+        <section class="section">
+
+            <div class="card">
+
+                <img
+                    src="${listing.image}"
+                    class="account-image"
+                    alt="Account">
+
+                <div class="account-info">
+
+                    <h2>${listing.title}</h2>
+
+                    <p class="muted">
+                        Listing ID: ${listing.id}
+                    </p>
+
+                    <p class="muted">
+                        ${listing.description}
+                    </p>
+
+                    <div class="price">
+                        ₦${listing.price.toLocaleString()}
+                    </div>
+
+                    <div class="notice">
+                        Make sure the relevant platform permits
+                        the transfer or sale before purchasing.
+                    </div>
+
+                    <button
+                        class="btn full"
+                        onclick="showPayment()">
+
+                        CONTINUE TO PAYMENT
+
+                    </button>
+
+                    <a
+                        class="whatsapp"
+                        href="https://wa.me/2349069570477"
+                        target="_blank">
+
+                        Contact seller on WhatsApp
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+    `;
+}
+
+
+/* =========================
+   PAYMENT
+========================= */
+
+function showPayment() {
+
+    document.getElementById("app").innerHTML = `
+
+        <section class="section">
+
+            <div class="panel">
+
+                <h2>💳 Payment</h2>
+
+                <div class="notice">
+
+                    <b>${listing.title}</b><br><br>
+
+                    Amount:
+                    <b>₦${listing.price.toLocaleString()}</b>
+
+                    <br><br>
+
+                    Contact the seller for the current payment
+                    instructions.
+
+                </div>
+
+                <input
+                    class="input"
+                    id="buyerName"
+                    placeholder="Your name">
+
+                <input
+                    class="input"
+                    id="buyerPhone"
+                    placeholder="Your phone number">
+
+                <input
+                    class="input"
+                    id="paymentReference"
+                    placeholder="Payment/reference number">
+
+                <div class="notice">
+
+                    After making payment, submit your reference.
+                    Payment must be manually verified by the seller/admin.
+
+                </div>
+
+                <button
+                    class="btn full"
+                    onclick="submitPayment()">
+
+                    I HAVE PAID
+
+                </button>
+
+            </div>
+
+        </section>
+    `;
+}
+
+
+/* =========================
+   PAYMENT SUBMISSION
+========================= */
+
+function submitPayment() {
+
+    var name =
+        document.getElementById("buyerName").value.trim();
+
+    var phone =
+        document.getElementById("buyerPhone").value.trim();
+
+    var reference =
+        document.getElementById("paymentReference").value.trim();
+
+    if (!name || !phone || !reference) {
+
+        alert("Please complete all fields.");
+
+        return;
+    }
+
+    var order = {
+
+        id: "ORD-" + Date.now(),
+
+        listing: listing.title,
+
+        amount: listing.price,
+
+        buyer: name,
+
+        phone: phone,
+
+        reference: reference,
+
+        status: "PENDING VERIFICATION",
+
+        date: new Date().toLocaleString()
+
+    };
+
+    orders.push(order);
+
+    localStorage.setItem(
+        "venomOrders",
+        JSON.stringify(orders)
+    );
+
+    document.getElementById("app").innerHTML = `
+
+        <section class="section">
+
+            <div class="panel">
+
+                <h2>✅ Payment Submitted</h2>
+
+                <div class="status">
+
+                    Order ID:<br>
+
+                    <b>${order.id}</b>
+
+                </div>
+
+                <div class="status">
+
+                    Status:<br>
+
+                    <b>PENDING VERIFICATION</b>
+
+                </div>
+
+                <p class="muted">
+
+                    Keep your order ID while your payment
+                    is being manually checked.
+
+                </p>
+
+                <br>
+
+                <button
+                    class="btn full"
+                    onclick="showOrders()">
+
+                    VIEW ORDER
+
+                </button>
+
+            </div>
+
+        </section>
+    `;
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+function showOrders() {
+
+    var html = "";
+
+    if (orders.length === 0) {
+
+        html = `
+
+            <div class="empty">
+
+                <h3>No orders yet</h3>
+
+                <p class="muted">
+                    Your orders will appear here.
+                </p>
+
+            </div>
+        `;
+
+    } else {
+
+        for (var i = 0; i < orders.length; i++) {
+
+            var order = orders[i];
+
+            html += `
+
+                <div class="card">
+
+                    <h3>${order.listing}</h3>
+
+                    <p class="muted">
+                        Order ID: ${order.id}
+                    </p>
+
+                    <p class="muted">
+                        Buyer: ${order.buyer}
+                    </p>
+
+                    <p class="muted">
+                        Amount:
+                        ₦${order.amount.toLocaleString()}
+                    </p>
+
+                    <p class="muted">
+                        Reference: ${order.reference}
+                    </p>
+
+                    <div class="status">
+
+                        Status:
+                        <b>${order.status}</b>
+
+                    </div>
+
+                    <p class="muted">
+                        ${order.date}
+                    </p>
+
+                </div>
+            `;
+        }
+    }
+
+    document.getElementById("app").innerHTML = `
+
+        <section class="section">
+
+            <h2>📦 Orders</h2>
+
+            <br>
+
+            ${html}
+
+        </section>
+    `;
+}
+
+
+/* =========================
+   SELL
+========================= */
+
+function showSell() {
+
+    document.getElementById("app").innerHTML = `
+
+        <section class="section">
+
+            <div class="panel">
+
+                <h2>➕ Sell an Account</h2>
+
+                <div class="notice">
+
+                    Only list accounts you are authorized
+                    to sell or transfer.
+
+                </div>
+
+                <input
+                    class="input"
+                    id="sellerTitle"
+                    placeholder="Account name">
+
+                <input
+                    class="input"
+                    id="sellerPrice"
+                    type="number"
+                    placeholder="Price in ₦">
+
+                <input
+                    class="input"
+                    id="sellerPhone"
+                    placeholder="Phone number">
+
+                <textarea
+                    class="textarea"
+                    id="sellerDescription"
+                    placeholder="Account description">
+                </textarea>
+
+                <input
+                    class="input"
+                    type="file"
+                    accept="image/*">
+
+                <button
+                    class="btn full"
+                    onclick="submitSeller()">
+
+                    SUBMIT LISTING
+
+                </button>
+
+            </div>
+
+        </section>
+    `;
+}
+
+
+/* =========================
+   SELL SUBMISSION
+========================= */
+
+function submitSeller() {
+
+    var title =
+        document.getElementById("sellerTitle").value.trim();
+
+    var price =
+        document.getElementById("sellerPrice").value.trim();
+
+    var phone =
+        document.getElementById("sellerPhone").value.trim();
+
+    if (!title || !price || !phone) {
+
+        alert("Please fill in the required fields.");
+
+        return;
+    }
+
+    alert(
+        "Listing submitted for review.\n\n" +
+        "Name: " + title + "\n" +
+        "Price: ₦" + Number(price).toLocaleString() + "\n" +
+        "Phone: " + phone
+    );
+}
+
+
+/* =========================
+   MUSIC
+========================= */
+
+function toggleMusic() {
+
+    var music =
+        document.getElementById("music");
+
+    if (music.paused) {
+
+        music.play().catch(function() {
+
+            alert(
+                "Put your music file beside index.html " +
+                "and name it music.mp3"
+            );
+
+        });
+
+    } else {
+
+        music.pause();
+    }
+}
+
+
+/* =========================
+   START
+========================= */
+
+showHome();
+
+</script>
+
+</body>
+</html>
